@@ -7,7 +7,7 @@ class Home extends Component {
       <div className="Home">
         <div className="lander">
           <h1>The Bluescoder Project</h1>
-          <p>This is where it all begins ...</p>
+          <p>"As Long As You Live, Keep Learning How To Live" - Seneca...</p>
         </div>
       </div>
     );

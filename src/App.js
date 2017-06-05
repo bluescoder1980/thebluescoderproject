@@ -1,24 +1,7 @@
-/*import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>The Bluescoder Project</h2>
-        </div>
-        <p className="App-intro">
-          This is where it all begins ... <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
-
-export default App;
+/*
+AM2017.05.29 - Main Component that will run the majority of the code.  Note that
+we craeted a new Class called "App" and extended the Component class.  Components 
+in ReactJS are used as the building blocks for app development.
 */
 
 import React, { Component } from 'react';
@@ -29,6 +12,7 @@ import {
 
 import {
   Nav,
+  NavItem,
   Navbar
 } from 'react-bootstrap';
 
@@ -36,31 +20,113 @@ import './App.css';
 import Routes from './Routes';
 import RouteNavItem from './components/RouteNavItem';
 
+import { CognitoUserPool, } from 'amazon-cognito-identity-js';
+import config from './config.js';
+
 class App extends Component {
   
+  //Adding code to set the state to null and then use the 
+  //token retreived from AWS Cognito to update the state
+  //to let the app know the user is logged in.
+constructor(props) {
+  super(props);
+
+  this.state = {
+    userToken: null,
+  };
+}
+
+updateUserToken = (userToken) => {
+  this.setState({
+    userToken: userToken
+  });
+}
+
+
+async componentDidMount() {
+  const currentUser = this.getCurrentUser();
+
+  if (currentUser === null) {
+    this.setState({isLoadingUserToken: false});
+    return;
+  }
+
+  try {
+    const userToken = await this.getUserToken(currentUser);
+    this.updateUserToken(userToken);
+  }
+  catch(e) {
+    alert(e);
+  }
+
+  this.setState({isLoadingUserToken: false});
+}
+
+getCurrentUser() {
+  const userPool = new CognitoUserPool({
+    UserPoolId: config.cognito.USER_POOL_ID,
+    ClientId: config.cognito.APP_CLIENT_ID
+  });
+  return userPool.getCurrentUser();
+}
+
+getUserToken(currentUser) {
+  return new Promise((resolve, reject) => {
+    currentUser.getSession(function(err, session) {
+      if (err) {
+          reject(err);
+          return;
+      }
+      resolve(session.getIdToken().getJwtToken());
+    });
+  });
+}
+
+
 handleNavLink = (event) => {
   event.preventDefault();
   this.props.history.push(event.currentTarget.getAttribute('href'));
 }
 
+handleLogout = (event) => {
+  const currentUser = this.getCurrentUser();
+
+  if (currentUser !== null) {
+    currentUser.signOut();
+  }
+
+  this.updateUserToken(null);
+
+  this.props.history.push('/login');
+}
+
   render() {
-  return (
+  const childProps = {
+    userToken: this.state.userToken,
+    updateUserToken: this.updateUserToken,
+  };
+
+  return ! this.state.isLoadingUserToken
+  &&
+  (
     <div className="App container">
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/">Home</Link>
+            <Link to="/">Scratch</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight>
-            <RouteNavItem onClick={this.handleNavLink} href="/signup">Signup</RouteNavItem>
-            <RouteNavItem onClick={this.handleNavLink} href="/login">Login</RouteNavItem>
+            { this.state.userToken
+              ? <NavItem onClick={this.handleLogout}>Logout</NavItem>
+              : [ <RouteNavItem key={1} onClick={this.handleNavLink} href="/signup">Signup</RouteNavItem>,
+                  <RouteNavItem key={2} onClick={this.handleNavLink} href="/login">Login</RouteNavItem> ] }
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      <Routes />
+      <Routes childProps={childProps} />
     </div>
   );
 }

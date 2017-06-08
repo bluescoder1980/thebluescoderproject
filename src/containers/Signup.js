@@ -1,3 +1,7 @@
+/*
+  2017.06.07 - This script will bring the peices together to create a Sign-Up process.
+  Key ingredients : Router, Form Controls, Cognito-Identity control.
+*/
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import {

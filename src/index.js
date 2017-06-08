@@ -1,11 +1,6 @@
-/* import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-import './index.css';
-
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+/* 
+	2017.06.07 - A.Maldonado - This class links the Index.html into our App Code base component where 
+	all the majic happens.
 */
 
 import React from 'react';

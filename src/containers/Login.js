@@ -7,12 +7,15 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 //Importing user controls from the "react-bootstrap" libary
 
+//The Boot-Strap proejct has a set of controls we can use for our app
+//If I want to make seperate controls I can create new ones.
 import {
   FormGroup,
   FormControl,
   ControlLabel,
 } from 'react-bootstrap';
 
+// This is the animated Loader Button we use once user clicks login.
 import LoaderButton from '../components/LoaderButton';
 
 //Will need to create login.css
@@ -124,7 +127,7 @@ class Login extends Component {
             type="submit"
             isLoading={this.state.isLoading}
             text="Login"
-            loadingText="Logging in…" />
+            loadingText="Here We Go ..." />
         </form>
       </div>
     );

@@ -1,3 +1,4 @@
+// This is the file we will use the store the AWS User Pool ID and App Client ID We created for our app
 export default {
   cognito: {
     USER_POOL_ID : 'us-east-2_snDf7AsuK',

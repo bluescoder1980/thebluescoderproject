@@ -2,27 +2,108 @@
   2017.06.07 - A.Maldonado : updated Home.js as the landing page for when user comes to site.
 */
 
-// JavaScript allows us to import React libraries as well as CSS references.
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import {
+  PageHeader,
+  ListGroup,
+  ListGroupItem,
+} from 'react-bootstrap';
 import './Home.css';
+//Import the awsLib helper class
+import { invokeApig } from '../libs/awsLib';
 
-/*
-  The Home component is our React component that will be our content when the user 
-  Lands on the home page.  This will be the Pub Side of our site.  Still need to figure out
-  Where we want to 'route' the user when they are logged in.
-*/
 class Home extends Component {
-  render() {
-    return (
-      <div className="Home">
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoading: false,
+      notes: [],
+    };
+  }
+
+  //This method mounts the userToken to the requeast
+  //and then invokes the Notes function Asynchronously.
+  async componentDidMount() {
+    if (this.props.userToken === null) {
+      return;
+    }
+
+    this.setState({ isLoading: true });
+
+    try {
+      const results = await this.notes();
+      this.setState({ notes: results });
+    }
+    catch(e) {
+      alert(e);
+    }
+
+    this.setState({ isLoading: false });
+  }
+
+  //Function to invoke the API to get notes
+  notes() {
+    return invokeApig({ path: '/notes' }, this.props.userToken);
+  }
+
+
+  renderNotesList(notes) {
+  return [{}].concat(notes).map((note, i) => (
+    i !== 0
+      ? ( <ListGroupItem
+            key={note.notesId}
+            href={`/notes/${note.notesId}`}
+            onClick={this.handleNoteClick}
+            header={note.content.trim().split('\n')[0]}>
+              { "Created: " + (new Date(note.createdAt)).toLocaleString() }
+          </ListGroupItem> )
+      : ( <ListGroupItem
+            key="new"
+            href="/notes/new"
+            onClick={this.handleNoteClick}>
+              <h4><b>{'\uFF0B'}</b> Create a new note</h4>
+          </ListGroupItem> )
+  ));
+}
+  
+  handleNoteClick = (event) => {
+    event.preventDefault();
+    this.props.history.push(event.currentTarget.getAttribute('href'));
+  }
+
+    renderLander() {
+      return (
         <div className="lander">
           <h1>The Bluescoder Project</h1>
-          <p>"As Long As You Live, Keep Learning How To Live" - Seneca</p>
+          <p>"As long as you live, keep learning how to live." - Seneca</p>
         </div>
-      </div>
-    );
-  }
+      );
+    }
+
+    renderNotes() {
+      return (
+        <div className="notes">
+          <PageHeader>Daily Wisdom ...</PageHeader>
+          <ListGroup>
+            { ! this.state.isLoading
+              && this.renderNotesList(this.state.notes) }
+          </ListGroup>
+        </div>
+      );
+    }
+
+    render() {
+      return (
+        <div className="Home">
+          { this.props.userToken === null
+            ? this.renderLander()
+            : this.renderNotes() }
+        </div>
+      );
+    }
 }
 
-// have to export the Component you create
-export default Home;
+export default withRouter(Home);

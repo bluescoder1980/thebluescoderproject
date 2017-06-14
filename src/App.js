@@ -22,6 +22,7 @@ import RouteNavItem from './components/RouteNavItem';
 
 import { CognitoUserPool, } from 'amazon-cognito-identity-js';
 import config from './config.js';
+import AWS from 'aws-sdk'; //used to cache AWS Credentials
 
 class App extends Component {
   
@@ -95,6 +96,10 @@ handleLogout = (event) => {
     currentUser.signOut();
   }
 
+  if (AWS.config.credentials) {
+    AWS.config.credentials.clearCachedId();
+  }
+
   this.updateUserToken(null);
 
   this.props.history.push('/login');
@@ -113,7 +118,13 @@ handleLogout = (event) => {
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/">Scratch</Link>
+            <Link to="/">Home</Link>
+          </Navbar.Brand>
+          <Navbar.Brand>
+            <Link to="/">Bio</Link>
+          </Navbar.Brand>
+          <Navbar.Brand>
+            <Link to="/">Blog</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>

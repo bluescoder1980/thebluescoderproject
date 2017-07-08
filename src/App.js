@@ -131,7 +131,7 @@ handleLogout = (event) => {
           <Navbar.Brand>
             <Link to="/"><i className="fa fa-home" aria-hidden="true"></i></Link>
           </Navbar.Brand>
-        </Navbar.Header>
+
         <Navbar.Toggle />
 
         <Navbar.Brand>
@@ -145,7 +145,7 @@ handleLogout = (event) => {
         <Navbar.Brand>
          <i><a href="https://github.com/bluescoder1980" className="fa fa-github" aria-hidden="true"></a></i>
         </Navbar.Brand>
-
+        </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight>
             { this.state.userToken

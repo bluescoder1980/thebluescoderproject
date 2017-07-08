@@ -10,9 +10,8 @@ import {
   Link
 } from 'react-router-dom';
 
-import SideBar from './containers/SideBar-Abe';
-
-import 'font-awesome/css/font-awesome.css';
+//import Example from './containers/SideBar.js';
+import { nameOfAnimation as Menu } from 'react-burger-menu'
 
 import {
   Nav,
@@ -121,31 +120,23 @@ handleLogout = (event) => {
   return ! this.state.isLoadingUserToken
   &&
   (
-     <div className="App container">
      
-     {this.state.userToken ? <SideBar/> : null}
-      <div className="content-container">
-     <Navbar fluid collapseOnSelect>
+    
+    <div className="App container">
+     
+      <Navbar fluid collapseOnSelect>
         <Navbar.Header>
-
           <Navbar.Brand>
-            <Link to="/"><i className="fa fa-home" aria-hidden="true"></i></Link>
+            <Link to="/">Home</Link>
           </Navbar.Brand>
+          <Navbar.Brand>
+            <Link to="/">Bio</Link>
+          </Navbar.Brand>
+          <Navbar.Brand>
+            <Link to="/">Blog</Link>
+          </Navbar.Brand>
+          <Navbar.Toggle />
         </Navbar.Header>
-        <Navbar.Toggle />
-
-        <Navbar.Brand>
-          <i><a href="https://twitter.com/Bluescoder" className="fa fa-twitter" aria-hidden="true"></a></i>
-        </Navbar.Brand>
-
-        <Navbar.Brand>
-         <i><a href="https://www.linkedin.com/in/abram-maldonado-28ab643" className="fa fa-linkedin" aria-hidden="true"></a></i>
-        </Navbar.Brand>
-
-        <Navbar.Brand>
-         <i><a href="https://github.com/bluescoder1980" className="fa fa-github" aria-hidden="true"></a></i>
-        </Navbar.Brand>
-
         <Navbar.Collapse>
           <Nav pullRight>
             { this.state.userToken
@@ -155,13 +146,16 @@ handleLogout = (event) => {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-       <Routes childProps={childProps} />
-      </div>
-     </div>
-  
+      <Routes childProps={childProps} />
+    </div>
+   
+
   );
 }
  
+
+
+
 }
 
 export default withRouter(App);

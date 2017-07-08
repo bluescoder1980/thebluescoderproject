@@ -9,7 +9,7 @@ import {
 import LoaderButton from '../components/LoaderButton';
 import config from '../config.js';
 import './Notes.css';
-
+import SideBar from './SideBar-Abe';
 
 class Notes extends Component {
   constructor(props) {

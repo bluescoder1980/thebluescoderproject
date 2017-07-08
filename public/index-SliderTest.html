@@ -31,7 +31,7 @@
 
       <!-- Adding Google Fonts -->
       <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=PT+Serif|Open+Sans:300,400,600,700,800">
-      <link rel="stylesheet" href="src/containers/SideBar.css">
+
 
     
     <title>The Bluescoder Project</title>
@@ -41,10 +41,49 @@
       You need to enable JavaScript to run this app.
     </noscript>
     
-
-    <!-- Entry Point into React App -->
-    <div id="root"></div>
     
+    <div id="Wrapper">
+
+        <!-- Side Bar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+              <li><a href="#">Home</a>
+              <li><a href="#">Bio</a>
+              <li><a href="#">Projects</a>
+              <li><a href="#">Log Out</a>
+            </ul>
+
+        </div>
+
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-lg-12">
+                    <a href="#" class="btn btn-success" id="menu-toggle">Toggle Menu</a>
+                    <h1>Side Bar Layout Test</h1>
+                    <p>I love side bars.I love side bars.I love side bars.I love side bars.I love side bars.
+                    I love side bars.I love side bars.I love side bars.I love side bars.I love side bars.
+                    I love side bars.I love side bars.I love side bars.I love side bars.I love side bars.
+                    I love side bars.I love side bars.I love side bars.I love side bars.I love side bars.I love side bars.</p>
+                </div>
+              </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--Menu Toggle Script-->
+    <script>
+      $("menu-toggle").click( function (e) {
+
+          e.preventDefault();
+          $("#Wrapper").toggleClass("menuDisplayed");
+      });
+    </script>
+
+    <!-- This code below takes us into the REACT Boot Strap app
+    <div id="root"></div>
+    -->
 
     <!--
       This HTML file is a template.

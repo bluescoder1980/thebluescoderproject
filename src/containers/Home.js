@@ -12,6 +12,8 @@ import {
 import './Home.css';
 //Import the awsLib helper class
 import { invokeApig } from '../libs/awsLib';
+import Lander from './Lander.js';
+
 
 class Home extends Component {
 
@@ -76,15 +78,13 @@ class Home extends Component {
 
     renderLander() {
       return (
-        <div className="lander">
-          <h1>The Bluescoder Project</h1>
-          <p>"As long as you live, keep learning how to live." - Seneca</p>
-        </div>
+        <Lander/>
       );
     }
 
     renderNotes() {
       return (
+      
         <div className="notes">
           <PageHeader>Daily Wisdom ...</PageHeader>
           <ListGroup>
@@ -92,7 +92,18 @@ class Home extends Component {
               && this.renderNotesList(this.state.notes) }
           </ListGroup>
         </div>
+      
+        
       );
+    }
+
+    renderFooter() {
+
+      return (
+        <div className="footer">
+          <h2>Place Holder For Footer</h2>
+        </div>
+        );
     }
 
     render() {
@@ -100,7 +111,8 @@ class Home extends Component {
         <div className="Home">
           { this.props.userToken === null
             ? this.renderLander()
-            : this.renderNotes() }
+            : this.renderNotes()
+          }
         </div>
       );
     }
